@@ -12,7 +12,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import ant.vit.paesidelmondo.R
 import ant.vit.paesidelmondo.model.CountryDetailsModel
 import ant.vit.paesidelmondo.tools.SingleEvent
@@ -20,14 +19,19 @@ import ant.vit.paesidelmondo.tools.Utils.Companion.showErrorDialog
 import ant.vit.paesidelmondo.tools.loadImage
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.DETAILS
 import ant.vit.paesidelmondo.viewmodel.CountriesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_details.*
+import javax.inject.Inject
 
 
 /**
  * Created by Vitiello Antonio
  */
+@AndroidEntryPoint
 class DetailsFragment : Fragment(), INavigationListener {
-    private val mViewModel by activityViewModels<CountriesViewModel>()
+
+    @Inject
+    lateinit var mViewModel: CountriesViewModel
 
     companion object {
         const val TAG = "DetailsFragment"

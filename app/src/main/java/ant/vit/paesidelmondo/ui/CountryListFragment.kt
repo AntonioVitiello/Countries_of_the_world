@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 import ant.vit.paesidelmondo.R
 import ant.vit.paesidelmondo.model.CountryNameModel
@@ -17,13 +16,18 @@ import ant.vit.paesidelmondo.ui.DetailsFragment.Companion.KEY_COUNTRY_NAME
 import ant.vit.paesidelmondo.ui.adapter.CountriesAdapter
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.LIST
 import ant.vit.paesidelmondo.viewmodel.CountriesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_countries.*
+import javax.inject.Inject
 
 /**
  * Created by Vitiello Antonio
  */
+@AndroidEntryPoint
 class CountryListFragment : Fragment(), INavigationListener, ILanguagesDialog {
-    private val mViewModel by activityViewModels<CountriesViewModel>()
+
+    @Inject
+    lateinit var mViewModel: CountriesViewModel
     private lateinit var mAdapter: CountriesAdapter
 
     companion object {

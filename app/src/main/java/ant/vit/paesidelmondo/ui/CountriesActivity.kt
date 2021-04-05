@@ -2,7 +2,6 @@ package ant.vit.paesidelmondo.ui
 
 import android.os.Bundle
 import android.view.Menu
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
@@ -15,14 +14,19 @@ import ant.vit.paesidelmondo.ui.model.ToolbarType
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.DETAILS
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.LIST
 import ant.vit.paesidelmondo.viewmodel.CountriesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_countries.*
+import javax.inject.Inject
 
 
 /**
  * Created by Vitiello Antonio
  */
+@AndroidEntryPoint
 class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
-    private val mViewModel by viewModels<CountriesViewModel>()
+
+    @Inject
+    lateinit var mViewModel: CountriesViewModel
     private var mMenuRes = R.menu.search_countries_menu
     private lateinit var mNavHostFragment: NavHostFragment
     private lateinit var mNavController: NavController

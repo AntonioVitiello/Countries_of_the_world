@@ -13,13 +13,17 @@ import ant.vit.paesidelmondo.network.CountriesRepository
 import ant.vit.paesidelmondo.tools.SingleEvent
 import ant.vit.paesidelmondo.tools.manageLoading
 import ant.vit.paesidelmondo.ui.model.ToolbarType
+import dagger.hilt.android.scopes.ActivityScoped
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Created by Vitiello Antonio
  */
-class CountriesViewModel(application: Application) : AndroidViewModel(application) {
+@ActivityScoped
+class CountriesViewModel @Inject constructor(application: Application, private val repository: CountriesRepository) :
+    AndroidViewModel(application) {
     private val compositeDisposable = CompositeDisposable()
     var countriesLiveData = MutableLiveData<List<CountryNameModel>>()
     var countryDetailsLiveData = MutableLiveData<SingleEvent<CountryDetailsModel>>()
@@ -35,7 +39,7 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun loadAllCountriesName() {
         compositeDisposable.add(
-            CountriesRepository.getAllCountriesNameSingle()
+            this.repository.getAllCountriesNameSingle()
                 .map(::mapAllCountryNames)
                 .map { models ->
                     val languageSet = mutableSetOf("")
@@ -64,7 +68,7 @@ class CountriesViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun loadCountryDetailsByName(countryName: String) {
         compositeDisposable.add(
-            CountriesRepository.getCountryDetailsSingle(countryName)
+            this.repository.getCountryDetailsSingle(countryName)
                 .map { mapCountryDetails(it, countryName) }
                 .manageLoading(progressLiveData)
                 .subscribeOn(Schedulers.io())

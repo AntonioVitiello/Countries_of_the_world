@@ -10,18 +10,22 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import ant.vit.paesidelmondo.R
 import ant.vit.paesidelmondo.tools.implementedInterface
 import ant.vit.paesidelmondo.viewmodel.CountriesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_languages.*
+import javax.inject.Inject
 
 
 /**
  * Created by Vitiello Antonio
  */
+@AndroidEntryPoint
 class LanguagesDiaolog : DialogFragment() {
-    private val mViewModel by activityViewModels<CountriesViewModel>()
+
+    @Inject
+    lateinit var mViewModel: CountriesViewModel
     private var languageSelected: String? = null
 
     companion object {
