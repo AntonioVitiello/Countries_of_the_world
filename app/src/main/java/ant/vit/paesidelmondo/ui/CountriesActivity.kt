@@ -65,7 +65,7 @@ class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun showWelcomeMessage() {
-        Utils.showInfoDialog(this, R.string.app_name, R.string.welcome_message, 4000)
+        Utils.showInfoDialog(this, R.string.app_name, R.string.welcome_message, 4000L)
     }
 
     override fun onSupportNavigateUp(): Boolean {
