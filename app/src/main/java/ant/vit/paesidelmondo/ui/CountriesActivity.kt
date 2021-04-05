@@ -2,6 +2,7 @@ package ant.vit.paesidelmondo.ui
 
 import android.os.Bundle
 import android.view.Menu
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.NavController
@@ -30,6 +31,7 @@ class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var mMenuRes = R.menu.search_countries_menu
     private lateinit var mNavHostFragment: NavHostFragment
     private lateinit var mNavController: NavController
+    private var mWelcomeDialog: AlertDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,14 +71,18 @@ class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun showWelcomeMessage() {
-        Utils.showInfoDialog(this, R.string.app_name, R.string.welcome_message, 4000L)
+        mWelcomeDialog = Utils.showInfoDialog(this, R.string.app_name, R.string.welcome_message, 4000L) {
+            mWelcomeDialog = null
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         if (mNavController.previousBackStackEntry != null) {
             onBackPressed()
         } else {
-            showWelcomeMessage()
+            if (mWelcomeDialog == null) {
+                showWelcomeMessage()
+            }
         }
         return false
     }

@@ -1,6 +1,7 @@
 package ant.vit.paesidelmondo.tools
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.StringRes
@@ -41,20 +42,25 @@ class Utils {
         fun showInfoDialog(
             context: Context, @StringRes title: Int, @StringRes message: Int, timeout: Long? = null,
             listener: (() -> Unit)? = null
-        ) {
+        ): AlertDialog {
             val alertDialog = AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                    dialog.dismiss()
-                    listener?.invoke()
+                    doDialogDismiss(dialog, listener)
                 }
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .show()
             if (timeout != null) {
-                Handler(Looper.getMainLooper()).postDelayed({ alertDialog.dismiss() }, timeout)
+                Handler(Looper.getMainLooper()).postDelayed({ doDialogDismiss(alertDialog, listener) }, timeout)
             }
+            return alertDialog
+        }
+
+        fun doDialogDismiss(dialog: DialogInterface, listener: (() -> Unit)? = null) {
+            dialog.dismiss()
+            listener?.invoke()
         }
 
         fun showErrorDialog(context: Context, message: String, listener: () -> Unit) {
@@ -62,10 +68,7 @@ class Utils {
                 .setTitle(context.getString(R.string.error_dialog_title))
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                    dialog.dismiss()
-                    listener.invoke()
-                }
+                .setPositiveButton(android.R.string.ok) { dialog, _ -> doDialogDismiss(dialog, listener) }
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
         }
@@ -78,14 +81,8 @@ class Utils {
                 .setTitle(context.getString(R.string.error_dialog_title))
                 .setMessage(message)
                 .setCancelable(false)
-                .setPositiveButton(context.getString(leftButton)) { dialog, _ ->
-                    dialog.dismiss()
-                    leftListener.invoke()
-                }
-                .setNegativeButton(context.getString(rightButton)) { dialog, _ ->
-                    dialog.dismiss()
-                    rightListener.invoke()
-                }
+                .setPositiveButton(context.getString(leftButton)) { dialog, _ -> doDialogDismiss(dialog, leftListener) }
+                .setNegativeButton(context.getString(rightButton)) { dialog, _ -> doDialogDismiss(dialog, rightListener) }
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
         }
