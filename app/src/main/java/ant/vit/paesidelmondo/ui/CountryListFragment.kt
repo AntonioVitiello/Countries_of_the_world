@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.Navigation
 import ant.vit.paesidelmondo.R
 import ant.vit.paesidelmondo.model.CountryNameModel
 import ant.vit.paesidelmondo.tools.SingleEvent
 import ant.vit.paesidelmondo.tools.Utils
-import ant.vit.paesidelmondo.tools.addToStackFragment
 import ant.vit.paesidelmondo.tools.closeKeyboard
+import ant.vit.paesidelmondo.ui.DetailsFragment.Companion.KEY_COUNTRY_NAME
 import ant.vit.paesidelmondo.ui.adapter.CountriesAdapter
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.LIST
 import ant.vit.paesidelmondo.viewmodel.CountriesViewModel
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.fragment_countries.*
 /**
  * Created by Vitiello Antonio
  */
-class CountryListFragment : Fragment(), IOnBackPressed, ILanguagesDialog {
+class CountryListFragment : Fragment(), INavigationListener, ILanguagesDialog {
     private val mViewModel by activityViewModels<CountriesViewModel>()
     private lateinit var mAdapter: CountriesAdapter
 
@@ -50,7 +51,9 @@ class CountryListFragment : Fragment(), IOnBackPressed, ILanguagesDialog {
 
     private fun initComponents() {
         mAdapter = CountriesAdapter { model ->
-            addToStackFragment(R.id.fragmentContainerView, DetailsFragment.newInstance(model.countryName), DetailsFragment.TAG)
+            val navController = Navigation.findNavController(requireView())
+            navController.navigate(R.id.action_details,
+                Bundle().apply { putString(KEY_COUNTRY_NAME, model.countryName) })
         }
         recyclerView.apply {
             setHasFixedSize(false)
@@ -96,8 +99,8 @@ class CountryListFragment : Fragment(), IOnBackPressed, ILanguagesDialog {
         mAdapter.filterByCodeOrName(newText)
     }
 
-    override fun onBackPressed(): Boolean {
-        return false
+    override fun canNavigateBack(): Boolean {
+        return true
     }
 
     override fun canNavigateUp(): Boolean {

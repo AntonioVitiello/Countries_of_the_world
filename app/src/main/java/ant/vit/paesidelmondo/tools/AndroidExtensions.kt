@@ -20,29 +20,6 @@ import java.util.*
 /**
  * Created by Vitiello Antonio
  */
-fun Fragment.addToStackFragment(@IdRes fragmentContainer: Int, fragment: Fragment, backStackName: String) {
-    parentFragmentManager.beginTransaction().apply {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-        replace(fragmentContainer, fragment).addToBackStack(backStackName)
-    }.commit()
-}
-
-fun FragmentActivity.addToStackFragment(@IdRes fragmentContainer: Int, fragment: Fragment, backStackName: String) {
-    supportFragmentManager.beginTransaction().apply {
-        setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-        replace(fragmentContainer, fragment).addToBackStack(backStackName)
-    }.commit()
-}
-
-fun FragmentActivity.swapFragment(@IdRes fragmentContainer: Int, fragment: Fragment, backStackName: String) {
-    supportFragmentManager.apply {
-        popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        beginTransaction().apply {
-            setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left, R.anim.slide_out_right)
-            replace(fragmentContainer, fragment, backStackName)
-        }.commit()
-    }
-}
 
 fun <T> Single<T>.manageLoading(showProgressLiveData: MutableLiveData<SingleEvent<Boolean>>): Single<T> {
     return compose { upstream ->

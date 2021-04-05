@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.CountriesActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainerView"
-        android:name="ant.vit.paesidelmondo.ui.CountryListFragment"
+        android:id="@+id/navContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:tag="FiltriMovimentiFragment"
-        tools:layout="@layout/fragment_countries" />
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph" />
 
-    <ant.vit.paesidelmondo.ui.ProgressWidget
+    <ant.vit.paesidelmondo.ui.widget.ProgressWidget
         android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

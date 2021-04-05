@@ -2,17 +2,21 @@ package ant.vit.paesidelmondo.ui
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.navigation.NavController
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import ant.vit.paesidelmondo.R
 import ant.vit.paesidelmondo.tools.SingleEvent
+import ant.vit.paesidelmondo.tools.Utils
 import ant.vit.paesidelmondo.ui.model.ToolbarType
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.DETAILS
 import ant.vit.paesidelmondo.ui.model.ToolbarType.Companion.LIST
 import ant.vit.paesidelmondo.viewmodel.CountriesViewModel
 import kotlinx.android.synthetic.main.activity_countries.*
+
 
 /**
  * Created by Vitiello Antonio
@@ -20,6 +24,8 @@ import kotlinx.android.synthetic.main.activity_countries.*
 class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private val mViewModel by viewModels<CountriesViewModel>()
     private var mMenuRes = R.menu.search_countries_menu
+    private lateinit var mNavHostFragment: NavHostFragment
+    private lateinit var mNavController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +34,12 @@ class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         mViewModel.toolbarTypeLiveData.observe(this, ::setToolbarType)
         mViewModel.loadAllCountriesName()
         initComponents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mNavHostFragment = supportFragmentManager.fragments[0] as NavHostFragment
+        mNavController = findNavController(this, R.id.navContainer)
     }
 
     private fun initComponents() {
@@ -52,26 +64,34 @@ class CountriesActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         progress.show = event.getContentIfNotHandled() == true
     }
 
+    private fun showWelcomeMessage() {
+        Utils.showInfoDialog(this, R.string.app_name, R.string.welcome_message, 4000)
+    }
+
     override fun onSupportNavigateUp(): Boolean {
-        val iOnBackPressed = supportFragmentManager.fragments[0] as? IOnBackPressed
-        if (iOnBackPressed?.canNavigateUp() == true) {
+        if (mNavController.previousBackStackEntry != null) {
             onBackPressed()
+        } else {
+            showWelcomeMessage()
         }
         return false
     }
 
     override fun onBackPressed() {
-        //val iOnBackPressed = (supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as? IOnBackPressed)
-        val iOnBackPressed = supportFragmentManager.fragments[0] as? IOnBackPressed
-        if (iOnBackPressed?.onBackPressed() == true) {
-            return
+        val currentFragment = mNavHostFragment.childFragmentManager.fragments[0]
+        if (currentFragment is INavigationListener) {
+            if (currentFragment.canNavigateBack()) {
+                popBackStack()
+            }
+        } else {
+            popBackStack()
         }
-        //if backpressed has not already been managed
-        if (mMenuRes != R.menu.search_countries_menu) {
-            mMenuRes = R.menu.search_countries_menu
-            invalidateOptionsMenu()
+    }
+
+    private fun popBackStack() {
+        if (!mNavController.popBackStack()) {
+            finish()
         }
-        super.onBackPressed()
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {

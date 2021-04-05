@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/countryListFragment">
+
+    <fragment
+        android:id="@+id/countryListFragment"
+        android:name="ant.vit.paesidelmondo.ui.CountryListFragment"
+        android:label="fragment_countries"
+        tools:layout="@layout/fragment_countries">
+        <action
+            android:id="@+id/action_details"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/countryListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="ant.vit.paesidelmondo.ui.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="ant.vit.paesidelmondo.ui.DetailsFragment.KEY_COUNTRY_NAME"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

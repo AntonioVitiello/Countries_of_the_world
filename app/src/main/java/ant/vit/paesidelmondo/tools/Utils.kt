@@ -1,6 +1,9 @@
 package ant.vit.paesidelmondo.tools
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import ant.vit.paesidelmondo.R
 import java.text.SimpleDateFormat
@@ -35,6 +38,25 @@ class Utils {
             return number % 2 == 0
         }
 
+        fun showInfoDialog(
+            context: Context, @StringRes title: Int, @StringRes message: Int, timeout: Long? = null,
+            listener: (() -> Unit)? = null
+        ) {
+            val alertDialog = AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(true)
+                .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                    dialog.dismiss()
+                    listener?.invoke()
+                }
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show()
+            if (timeout != null) {
+                Handler(Looper.getMainLooper()).postDelayed({ alertDialog.dismiss() }, timeout)
+            }
+        }
+
         fun showErrorDialog(context: Context, message: String, listener: () -> Unit) {
             AlertDialog.Builder(context)
                 .setTitle(context.getString(R.string.error_dialog_title))
@@ -44,13 +66,12 @@ class Utils {
                     dialog.dismiss()
                     listener.invoke()
                 }
-                //.setNegativeButton(android.R.string.cancel, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show()
         }
 
         fun showCriticalErrorDialog(
-            context: Context, message: String, leftButton: Int, rightButton: Int,
+            context: Context, message: String, @StringRes leftButton: Int, @StringRes rightButton: Int,
             leftListener: () -> Unit, rightListener: () -> Unit
         ) {
             AlertDialog.Builder(context)

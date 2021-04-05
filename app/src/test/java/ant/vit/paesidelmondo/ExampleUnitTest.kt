@@ -12,7 +12,7 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
+    fun isOdd_isCorrect() {
         assertEquals(Utils.isOdd(1), false)
         assertEquals(Utils.isOdd(2), true)
     }

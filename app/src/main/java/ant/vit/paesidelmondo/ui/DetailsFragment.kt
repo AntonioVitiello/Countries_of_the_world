@@ -26,18 +26,13 @@ import kotlinx.android.synthetic.main.fragment_details.*
 /**
  * Created by Vitiello Antonio
  */
-class DetailsFragment : Fragment(), IOnBackPressed {
+class DetailsFragment : Fragment(), INavigationListener {
     private val mViewModel by activityViewModels<CountriesViewModel>()
 
     companion object {
         const val TAG = "DetailsFragment"
-        const val KEY_COUNTRY_NAME = "key_country_name"
+        const val KEY_COUNTRY_NAME = "countryName"
         const val FLAG_IMAGE_URL = "https://www.countryflags.io/{alpha2Code}/flat/64.png"
-        fun newInstance(countryName: String) = DetailsFragment().apply {
-            arguments = Bundle().apply {
-                putString(KEY_COUNTRY_NAME, countryName)
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,17 +54,17 @@ class DetailsFragment : Fragment(), IOnBackPressed {
         initComponents()
     }
 
-    private fun pulseFlag() {
-        val pulse = AnimationUtils.loadAnimation(context, R.anim.pulse)
-        flagImage.startAnimation(pulse)
-    }
-
     private fun initComponents() {
         flagImage.setOnClickListener {
             val model = mViewModel.countryDetailsLiveData.value
             val flagUrl = model?.peekContent()?.flagUrl
             openBrowser(flagUrl)
         }
+    }
+
+    private fun pulseFlag() {
+        val pulse = AnimationUtils.loadAnimation(context, R.anim.pulse)
+        flagImage.startAnimation(pulse)
     }
 
     private fun fillData(event: SingleEvent<CountryDetailsModel>) {
@@ -91,8 +86,8 @@ class DetailsFragment : Fragment(), IOnBackPressed {
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        return false
+    override fun canNavigateBack(): Boolean {
+        return true
     }
 
     override fun canNavigateUp(): Boolean {

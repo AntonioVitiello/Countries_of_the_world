@@ -6,7 +6,7 @@
     android:background="@color/progressBackground"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".ui.ProgressWidget">
+    tools:context=".ui.widget.ProgressWidget">
 
     <ProgressBar
         android:id="@+id/progressBar"

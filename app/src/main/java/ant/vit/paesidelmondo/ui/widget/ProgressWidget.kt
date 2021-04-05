@@ -1,4 +1,4 @@
-package ant.vit.paesidelmondo.ui
+package ant.vit.paesidelmondo.ui.widget
 
 import android.content.Context
 import android.util.AttributeSet

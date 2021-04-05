@@ -3,7 +3,7 @@ package ant.vit.paesidelmondo.ui
 /**
  * Created by Vitiello Antonio
  */
-interface IOnBackPressed {
-    fun onBackPressed(): Boolean
+interface INavigationListener {
+    fun canNavigateBack(): Boolean
     fun canNavigateUp(): Boolean
 }

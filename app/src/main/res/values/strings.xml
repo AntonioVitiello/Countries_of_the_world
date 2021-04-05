@@ -16,5 +16,5 @@
     <string name="error_dialog_title">Errore</string>
     <string name="error_dialog_try_again">Riprova</string>
     <string name="error_dialog_exit">Esci</string>
-
+    <string name="welcome_message">Un\'applicazione di:\nVitiello Antonio</string>
 </resources>
