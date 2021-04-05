@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Paesi del mondo</string>
+    <string name="content_description">Paesi del mondo</string>
+    <string name="generic_network_error_message">Si è verificato un errore di rete, riprova più tardi.</string>
+    <string name="list_country_label">%s (%s)</string>
+    <string name="action_search">Cerca</string>
+    <string name="invalid_flag_url">Indrizzo della bandiera non presente</string>
+    <string name="click_to_magnify">Clicca per ingrandire</string>
+    <string name="alpha_2_code_info">Codice nazione (2 caratteri): %s</string>
+    <string name="capital_info">Capitale: %s</string>
+    <string name="alt_spellings_info">Nomi alternativi: %s</string>
+    <string name="region_info">Regione: %s</string>
+    <string name="languages_info">Lingue parlate: %s</string>
+    <string name="currencies_info">Moneta ufficiale: %s</string>
+    <string name="languages_label">Cerca i paesi che parlano la lingua:</string>
+    <string name="error_dialog_title">Errore</string>
+    <string name="error_dialog_try_again">Riprova</string>
+    <string name="error_dialog_exit">Esci</string>
+
+</resources>

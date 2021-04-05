@@ -1,0 +1,14 @@
+REST:
+https://restcountries.eu/#api-endpoints-all
+
+ALL CUNTRIES:
+https://restcountries.eu/rest/v2/all
+https://restcountries.eu/rest/v2/all?fields=name;capital;currencies;alpha2Code
+
+COUNTRY INFO BY FULL NAME:
+https://restcountries.eu/rest/v2/name/andorra?fullText=true
+
+FLAG:
+https://www.countryflags.io/ad/flat/16.png
+https://www.countryflags.io/ad/flat/64.png
+sizes: https://www.countryflags.io/#sizes
