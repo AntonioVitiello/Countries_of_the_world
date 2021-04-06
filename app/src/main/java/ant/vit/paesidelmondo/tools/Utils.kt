@@ -43,22 +43,26 @@ class Utils {
             context: Context, @StringRes title: Int, @StringRes message: Int, timeout: Long? = null,
             listener: (() -> Unit)? = null
         ): AlertDialog {
-            val alertDialog = AlertDialog.Builder(context)
+            val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
                 .setTitle(title)
                 .setMessage(message)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.ok) { dialog, _ ->
-                    doDialogDismiss(dialog, listener)
+                    dialog.dismiss()
                 }
-                .setIcon(android.R.drawable.ic_dialog_info)
+                .setIcon(R.drawable.ic_dialog_info)
                 .show()
             if (timeout != null) {
-                Handler(Looper.getMainLooper()).postDelayed({ doDialogDismiss(alertDialog, listener) }, timeout)
+                Handler(Looper.getMainLooper()).postDelayed({ alertDialog.dismiss() }, timeout)
+            }
+            alertDialog.apply {
+                window?.setBackgroundDrawableResource(R.drawable.shape_blue_rect_round_16)
+                setOnDismissListener { listener?.invoke() }
             }
             return alertDialog
         }
 
-        fun doDialogDismiss(dialog: DialogInterface, listener: (() -> Unit)? = null) {
+        private fun doDialogDismiss(dialog: DialogInterface, listener: (() -> Unit)? = null) {
             dialog.dismiss()
             listener?.invoke()
         }
@@ -69,7 +73,7 @@ class Utils {
                 .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.ok) { dialog, _ -> doDialogDismiss(dialog, listener) }
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_dialog_error)
                 .show()
         }
 
@@ -83,7 +87,7 @@ class Utils {
                 .setCancelable(false)
                 .setPositiveButton(context.getString(leftButton)) { dialog, _ -> doDialogDismiss(dialog, leftListener) }
                 .setNegativeButton(context.getString(rightButton)) { dialog, _ -> doDialogDismiss(dialog, rightListener) }
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.ic_dialog_error)
                 .show()
         }
     }
